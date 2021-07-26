@@ -1,9 +1,11 @@
 import { useMutation, gql } from "@apollo/client";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFormState } from "react-hook-form";
 import { FormError } from "../components/form-error";
 import { loginMutation, loginMutationVariables } from "../__generated__/loginMutation";
 import dsuberLogo from "../images/logo.svg";
+import { Button } from "../components/button";
+import { Link } from "react-router-dom";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
@@ -21,7 +23,9 @@ interface ILoginForm {
 }
 
 export const Login = () => {
-  const { register, getValues, handleSubmit, formState: { errors } } = useForm<ILoginForm>();
+  const { register, getValues, handleSubmit, formState } = useForm<ILoginForm>({
+    mode: "onChange" // or onBlur
+  });
   const onCompleted = (data: loginMutation) => {
     if (data.login.ok) {
       const { login: { ok, token, error} } = data;
@@ -54,13 +58,13 @@ export const Login = () => {
     }
   };
   return (
-    <div className="h-screen flex flex-col items-center mt-10 md:mt-20">
+    <div className="h-screen flex flex-col items-center mt-7 md:mt-20">
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
         <img src={dsuberLogo} className="w-44 mb-16"/>
         <h4 className="w-full font-medium text-left text-2xl">Welcome back</h4>
         <form 
           onSubmit={handleSubmit(onValidSubmit)}
-          className="grid gap-3 mt-5 w-full"
+          className="grid gap-3 mt-5 w-full mb-3"
         >
           <input 
             {...register('email', {
@@ -72,8 +76,8 @@ export const Login = () => {
             placeholder="Email"
             className="input"
           />
-          {errors.email?.message && (
-            <FormError errorMessage={errors.email?.message} />
+          {formState.errors.email?.message && (
+            <FormError errorMessage={formState.errors.email?.message} />
           )}
           <input 
             {...register('password', {
@@ -86,17 +90,18 @@ export const Login = () => {
             placeholder="Password"
             className="input"
           />
-          {errors.password?.message && (
-            <FormError errorMessage={errors.password?.message} />
+          {formState.errors.password?.message && (
+            <FormError errorMessage={formState.errors.password?.message} />
           )}
-          {errors.password?.type === "minLength" && (
+          {formState.errors.password?.type === "minLength" && (
             <FormError errorMessage="Password must be more than 5 characters."/>
           )}
-          <button className="btn">
-            {loading ? "Loading..." : "Log In"}
-          </button>
+          <Button canClick={formState.isValid} loading={loading} actionText={"Log In"} />
           {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult.login.error}/>}
         </form>
+        <div>
+          New to Dsuber? <Link to="/signup" className=" text-lime-600 hover:underline">Create an Account</Link> 
+        </div>
       </div>
     </div>
   );
