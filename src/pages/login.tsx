@@ -33,22 +33,24 @@ export const Login = () => {
       }
     }
   };
-  const [ loginMutation, { data: loginMutationResult } ] = useMutation<
+  const [ loginMutation, { data: loginMutationResult, loading } ] = useMutation<
     loginMutation, 
     loginMutationVariables
   >(LOGIN_MUTATION, {
     onCompleted,
   });
   const onValidSubmit = () => {
-    const { email, password } = getValues();
-    loginMutation({
-      variables: {
-        loginInput: {
-          email,
-          password,
-        }
-      },
-    });
+    if (!loading) {
+      const { email, password } = getValues();
+      loginMutation({
+        variables: {
+          loginInput: {
+            email,
+            password,
+          }
+        },
+      });
+    }
   };
   return (
     <div className="h-screen flex items-center justify-center bg-gray-800">
@@ -86,7 +88,9 @@ export const Login = () => {
           {errors.password?.type === "minLength" && (
             <FormError errorMessage="Password must be more than 5 characters."/>
           )}
-          <button className="mt-2 btn">Log In</button>
+          <button className="mt-2 btn">
+            {loading ? "Loading..." : "Log In"}
+          </button>
           {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult.login.error}/>}
         </form>
       </div>
