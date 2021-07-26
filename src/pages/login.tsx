@@ -3,6 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { FormError } from "../components/form-error";
 import { loginMutation, loginMutationVariables } from "../__generated__/loginMutation";
+import dsuberLogo from "../images/logo.svg";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
@@ -53,12 +54,13 @@ export const Login = () => {
     }
   };
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-800">
-      <div className="bg-white w-full max-w-lg px-6 pt-6 pb-6 rounded-lg text-center">
-        <h3 className="text-3xl text-gray-800">Login</h3>
+    <div className="h-screen flex flex-col items-center mt-10 md:mt-20">
+      <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
+        <img src={dsuberLogo} className="w-44 mb-16"/>
+        <h4 className="w-full font-medium text-left text-2xl">Welcome back</h4>
         <form 
           onSubmit={handleSubmit(onValidSubmit)}
-          className="grid gap-3 mt-5 px-5"
+          className="grid gap-3 mt-5 w-full"
         >
           <input 
             {...register('email', {
@@ -67,7 +69,8 @@ export const Login = () => {
             name="email"
             required
             type="email"
-            placeholder="Email" className="mb-2 input"
+            placeholder="Email"
+            className="input"
           />
           {errors.email?.message && (
             <FormError errorMessage={errors.email?.message} />
@@ -80,7 +83,8 @@ export const Login = () => {
             name="password"
             required
             type="password"
-            placeholder="Password" className="input"
+            placeholder="Password"
+            className="input"
           />
           {errors.password?.message && (
             <FormError errorMessage={errors.password?.message} />
@@ -88,7 +92,7 @@ export const Login = () => {
           {errors.password?.type === "minLength" && (
             <FormError errorMessage="Password must be more than 5 characters."/>
           )}
-          <button className="mt-2 btn">
+          <button className="btn">
             {loading ? "Loading..." : "Log In"}
           </button>
           {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult.login.error}/>}
