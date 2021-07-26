@@ -5,11 +5,8 @@ import { FormError } from "../components/form-error";
 import { loginMutation, loginMutationVariables } from "../__generated__/loginMutation";
 
 const LOGIN_MUTATION = gql`
-  mutation loginMutation($email: String!, $password: String!) {
-    login(input: {
-      email: $email,
-      password: $password,
-    }) {
+  mutation loginMutation($loginInput: LoginInput!) {
+    login(input: $loginInput) {
       ok
       token
       error
@@ -24,16 +21,32 @@ interface ILoginForm {
 
 export const Login = () => {
   const { register, getValues, handleSubmit, formState: { errors } } = useForm<ILoginForm>();
-  const [ loginMutation, { loading, error, data } ] = useMutation<
+  const onCompleted = (data: loginMutation) => {
+    if (data.login.ok) {
+      const { login: { ok, token, error} } = data;
+      if (ok) {
+        console.log(token);
+      } else {
+        if (error) {
+          console.log();
+        }
+      }
+    }
+  };
+  const [ loginMutation, { data: loginMutationResult } ] = useMutation<
     loginMutation, 
-    loginMutationVariables,
-  >(LOGIN_MUTATION);
+    loginMutationVariables
+  >(LOGIN_MUTATION, {
+    onCompleted,
+  });
   const onValidSubmit = () => {
     const { email, password } = getValues();
     loginMutation({
       variables: {
-        email,
-        password,
+        loginInput: {
+          email,
+          password,
+        }
       },
     });
   };
@@ -74,6 +87,7 @@ export const Login = () => {
             <FormError errorMessage="Password must be more than 5 characters."/>
           )}
           <button className="mt-2 btn">Log In</button>
+          {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult.login.error}/>}
         </form>
       </div>
     </div>
