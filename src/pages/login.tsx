@@ -1,6 +1,7 @@
 import { useMutation, gql } from "@apollo/client";
 import React from "react";
-import { useForm, useFormState } from "react-hook-form";
+import Helmet from "react-helmet";
+import { useForm } from "react-hook-form";
 import { FormError } from "../components/form-error";
 import { loginMutation, loginMutationVariables } from "../__generated__/loginMutation";
 import dsuberLogo from "../images/logo.svg";
@@ -59,6 +60,9 @@ export const Login = () => {
   };
   return (
     <div className="h-screen flex flex-col items-center mt-7 md:mt-20">
+      <Helmet>
+        <title>Login | Dsuber Eats</title>
+      </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
         <img src={dsuberLogo} className="w-44 mb-16"/>
         <h4 className="w-full font-medium text-left text-2xl">Welcome back</h4>
@@ -100,7 +104,7 @@ export const Login = () => {
           {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult.login.error}/>}
         </form>
         <div>
-          New to Dsuber? <Link to="/signup" className=" text-lime-600 hover:underline">Create an Account</Link> 
+          New to Dsuber? <Link to="/create-account" className=" text-lime-600 hover:underline">Create an Account</Link> 
         </div>
       </div>
     </div>
