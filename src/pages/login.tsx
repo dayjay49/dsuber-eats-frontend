@@ -7,6 +7,7 @@ import { loginMutation, loginMutationVariables } from "../__generated__/loginMut
 import dsuberLogo from "../images/logo.svg";
 import { Button } from "../components/button";
 import { Link } from "react-router-dom";
+import { isLoggedInVar } from "../apollo";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
@@ -32,6 +33,7 @@ export const Login = () => {
       const { login: { ok, token, error} } = data;
       if (ok) {
         console.log(token);
+        isLoggedInVar(true);
       } else {
         if (error) {
           console.log();
@@ -45,6 +47,7 @@ export const Login = () => {
   >(LOGIN_MUTATION, {
     onCompleted,
   });
+
   const onValidSubmit = () => {
     if (!loading) {
       const { email, password } = getValues();
@@ -58,6 +61,7 @@ export const Login = () => {
       });
     }
   };
+  
   return (
     <div className="h-screen flex flex-col items-center mt-7 md:mt-20">
       <Helmet>
@@ -73,6 +77,7 @@ export const Login = () => {
           <input 
             {...register('email', {
               required: "Email is required",
+              pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             })} 
             name="email"
             required
@@ -82,6 +87,9 @@ export const Login = () => {
           />
           {formState.errors.email?.message && (
             <FormError errorMessage={formState.errors.email?.message} />
+          )}
+          {formState.errors.email?.type === "pattern" && (
+            <FormError errorMessage={"Please enter a valid email"} />
           )}
           <input 
             {...register('password', {
@@ -101,7 +109,9 @@ export const Login = () => {
             <FormError errorMessage="Password must be more than 5 characters."/>
           )}
           <Button canClick={formState.isValid} loading={loading} actionText={"Log In"} />
-          {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult.login.error}/>}
+          {loginMutationResult?.login.error && (
+            <FormError errorMessage={loginMutationResult.login.error}/>
+          )}
         </form>
         <div>
           New to Dsuber? <Link to="/create-account" className=" text-lime-600 hover:underline">Create an Account</Link> 
