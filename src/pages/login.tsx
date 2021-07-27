@@ -4,11 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { FormError } from "../components/form-error";
 import { loginMutation, loginMutationVariables } from "../__generated__/loginMutation";
-import dsuberLogo from "../images/logo.svg";
 import { Button } from "../components/button";
 import { Link } from "react-router-dom";
 import { authTokenVar, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constants";
+import { Logo } from "../components/logo";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
@@ -66,7 +66,8 @@ export const Login = () => {
         <title>Login | Dsuber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
-        <img src={dsuberLogo} className="w-44 mb-16" alt="Dsuber Eats"/>
+        {/* <img src={dsuberLogo} className="w-44 mb-16" alt="Dsuber Eats"/> */}
+        <Logo tailwindClassNames="w-44 mb-16"/>
         <h4 className="w-full font-medium text-left text-2xl">Welcome back</h4>
         <form 
           onSubmit={handleSubmit(onValidSubmit)}

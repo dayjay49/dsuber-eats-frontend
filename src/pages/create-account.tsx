@@ -3,11 +3,11 @@ import React from "react";
 import Helmet from "react-helmet";
 import { useForm } from "react-hook-form";
 import { FormError } from "../components/form-error";
-import dsuberLogo from "../images/logo.svg";
 import { Button } from "../components/button";
 import { Link, useHistory } from "react-router-dom";
 import { UserRole } from "../__generated__/globalTypes";
 import { createAccountMutation, createAccountMutationVariables } from "../__generated__/createAccountMutation";
+import { Logo } from "../components/logo";
 
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
@@ -69,7 +69,7 @@ export const CreateAccount = () => {
         <title>Create Account | Dsuber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
-        <img src={dsuberLogo} className="w-44 mb-16" alt="Dsuber Eats"/>
+        <Logo tailwindClassNames="w-44 mb-16"/>
         <h4 className="w-full font-medium text-left text-2xl">Let's get started</h4>
         <form 
           onSubmit={handleSubmit(onValidSubmit)}

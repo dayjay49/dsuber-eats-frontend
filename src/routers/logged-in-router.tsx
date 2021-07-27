@@ -2,6 +2,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { Header } from "../components/header";
 import { Restaurants } from "../pages/client/restaurants";
 import { meQuery } from "../__generated__/meQuery";
 
@@ -34,6 +35,7 @@ export const LoggedInRouter = () => {
   }
   return (
     <Router>
+      <Header />
       <Switch>
         { data.me.role === "Client" && ClientRoutes }
         <Redirect to="/" />
