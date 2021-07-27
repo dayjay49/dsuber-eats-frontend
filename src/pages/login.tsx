@@ -66,7 +66,7 @@ export const Login = () => {
         <title>Login | Dsuber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
-        <img src={dsuberLogo} className="w-44 mb-16"/>
+        <img src={dsuberLogo} className="w-44 mb-16" alt="Dsuber Eats"/>
         <h4 className="w-full font-medium text-left text-2xl">Welcome back</h4>
         <form 
           onSubmit={handleSubmit(onValidSubmit)}

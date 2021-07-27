@@ -37,7 +37,7 @@ export const CreateAccount = () => {
     if (ok) {
       alert("Account Created! Log in now!");
       // Redirect to login page
-      history.push("/login");
+      history.push("/");
     }
   };
 
@@ -69,7 +69,7 @@ export const CreateAccount = () => {
         <title>Create Account | Dsuber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
-        <img src={dsuberLogo} className="w-44 mb-16"/>
+        <img src={dsuberLogo} className="w-44 mb-16" alt="Dsuber Eats"/>
         <h4 className="w-full font-medium text-left text-2xl">Let's get started</h4>
         <form 
           onSubmit={handleSubmit(onValidSubmit)}
@@ -120,7 +120,7 @@ export const CreateAccount = () => {
           )}
         </form>
         <div>
-          Already have an account? <Link to="/login" className=" text-lime-600 hover:underline">Log in now</Link> 
+          Already have an account? <Link to="/" className=" text-lime-600 hover:underline">Log in now</Link> 
         </div>
       </div>
     </div>
