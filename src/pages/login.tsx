@@ -7,7 +7,7 @@ import { loginMutation, loginMutationVariables } from "../__generated__/loginMut
 import dsuberLogo from "../images/logo.svg";
 import { Button } from "../components/button";
 import { Link } from "react-router-dom";
-import { authToken, isLoggedInVar } from "../apollo";
+import { authTokenVar, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constants";
 
 const LOGIN_MUTATION = gql`
@@ -34,7 +34,7 @@ export const Login = () => {
       const { login: { ok, token } } = data;
       if (ok && token) {
         localStorage.setItem(LOCALSTORAGE_TOKEN, token);
-        authToken(token);
+        authTokenVar(token);
         isLoggedInVar(true);
       }
     }
