@@ -35,6 +35,7 @@ export const CreateAccount = () => {
   const onCompleted = (data: createAccountMutation) => {
     const { createAccount: { ok }} = data;
     if (ok) {
+      alert("Account Created! Log in now!");
       // Redirect to login page
       history.push("/login");
     }
