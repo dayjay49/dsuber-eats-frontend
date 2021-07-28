@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
           <Logo tailwindClassNames="w-28"/>
           <div>
             <span className="text-sm mr-3">
-              <Link to="/my-profile">
+              <Link to="/edit-profile">
                 <FontAwesomeIcon icon={faUser} className="text-xl" />
               </Link>
             </span>

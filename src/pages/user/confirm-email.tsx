@@ -1,5 +1,6 @@
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useMe } from "../../hooks/useMe";
 import { verifyEmail, verifyEmailVariables } from "../../__generated__/verifyEmail";
 
@@ -15,8 +16,10 @@ const VERIFY_EMAIL_MUTATION = gql`
 export const ConfirmEmail = () => {
   const { data: userData } = useMe();
   const client = useApolloClient();
+  const history = useHistory();
+
+  // update our cache on ApolloClient upon valid email confirmation
   const onCompleted = (data: verifyEmail) => {
-    // update our cache on ApolloClient
     const { verifyEmail: { ok } } = data;
     if (ok && userData?.me) {
       client.writeFragment({
@@ -30,6 +33,7 @@ export const ConfirmEmail = () => {
           verified: true
         }
       });
+      history.push("/");
     };
   };
   const [ verifyEmail ] = useMutation<verifyEmail, verifyEmailVariables>(
@@ -38,12 +42,9 @@ export const ConfirmEmail = () => {
       onCompleted,
     }
   );
-  // const location = useLocation()
   useEffect(() => {
-    // console.log(location);
-    // console.log(window.location.href.split("code="));
     const [_, code] = window.location.href.split("code=");
-    console.log(code);
+    // Update verification of the user on the backend
     verifyEmail({
       variables: {
         input: {
