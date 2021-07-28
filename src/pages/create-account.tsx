@@ -41,13 +41,15 @@ export const CreateAccount = () => {
     }
   };
 
-  const [ createAccountMutation, { loading, data: createAccountMutationResult } ] = useMutation<
+  const [ 
     createAccountMutation,
-    createAccountMutationVariables
-  >(CREATE_ACCOUNT_MUTATION, {
-    onCompleted,
-  });
-
+    { loading, data: createAccountMutationResult }
+  ] = useMutation<createAccountMutation, createAccountMutationVariables>(
+    CREATE_ACCOUNT_MUTATION,
+    {
+      onCompleted,
+    }
+  );
   const onValidSubmit = () => {
     if(!loading) {
       const { email, password, role } = getValues();

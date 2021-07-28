@@ -8,15 +8,24 @@ import { Logo } from "./logo";
 export const Header: React.FC = () => {
   const { data } = useMe();
   return (
-    <header className="py-4">
-      <div className="w-full px-5 lg:px-0 max-w-screen-lg mx-auto flex justify-between items-center">
-        <Logo tailwindClassNames="w-28"/>
-        <span className="text-sm">
-          <Link to="/my-profile">
-            <FontAwesomeIcon icon={faUser} className="text-xl" />
-          </Link>
-        </span>
-      </div>
-    </header>
+    <>
+      {!data?.me.verified && (
+        <div className="bg-red-500 py-3 px-3 text-center text-xs text-white">
+          <span>Please verify your email.</span>
+        </div>
+      )}
+      <header className="py-4">
+        <div className="w-full px-5 lg:px-0 max-w-screen-lg mx-auto flex justify-between items-center">
+          <Logo tailwindClassNames="w-28"/>
+          <div>
+            <span className="text-sm mr-3">
+              <Link to="/my-profile">
+                <FontAwesomeIcon icon={faUser} className="text-xl" />
+              </Link>
+            </span>
+          </div>
+        </div>
+      </header>
+    </>
   )
 };
