@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { authTokenVar, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constants";
 import { Logo } from "../components/logo";
+import { FormTitle } from "../components/form-title";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
@@ -68,7 +69,8 @@ export const Login = () => {
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
         {/* <img src={dsuberLogo} className="w-44 mb-16" alt="Dsuber Eats"/> */}
         <Logo tailwindClassNames="w-44 mb-16"/>
-        <h4 className="w-full font-medium text-left text-2xl">Welcome back</h4>
+        {/* <h4 className="w-full font-medium text-left text-2xl">Welcome back</h4> */}
+        <FormTitle name="Welcome back" additionalStyling="w-full text-left" />
         <form 
           onSubmit={handleSubmit(onValidSubmit)}
           className="grid gap-3 mt-5 w-full mb-3"
