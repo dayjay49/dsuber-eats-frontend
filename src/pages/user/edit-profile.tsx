@@ -1,5 +1,6 @@
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { Button } from "../../components/button";
 import { FormTitle } from "../../components/form-title";
@@ -21,30 +22,30 @@ interface IEditFormProps {
 }
 
 export const EditProfile = () => {
-  const { data: userData, refetch: refreshUser } = useMe();
-  // const client = useApolloClient();
+  const { data: userData } = useMe();
+  const client = useApolloClient();
   const onCompleted = async (data: editProfile) => {
     const { editProfile: { ok } } = data;
     if (ok && userData) {
-      // // update the cache
-      // const { me: { email: prevEmail, id }} = userData;
-      // const { email: newEmail } = getValues(); 
-      // if (prevEmail !== newEmail) {
-      //   client.writeFragment({
-      //     id: `User:${id}`,
-      //     fragment: gql`
-      //       fragment EditedUser on User {
-      //         verified
-      //         email
-      //       }
-      //     `,
-      //     data: {
-      //       verified: false,
-      //       email: newEmail,
-      //     }
-      //   });
-      // }
-      await refreshUser();
+      // update the cache
+      const { me: { email: prevEmail, id }} = userData;
+      const { email: newEmail } = getValues(); 
+      if (prevEmail !== newEmail) {
+        client.writeFragment({
+          id: `User:${id}`,
+          fragment: gql`
+            fragment EditedUser on User {
+              verified
+              email
+            }
+          `,
+          data: {
+            verified: false,
+            email: newEmail,
+          }
+        });
+      }
+      // await refreshUser();
     } 
   };
   const [ editProfile, { loading }] = useMutation<
@@ -73,6 +74,9 @@ export const EditProfile = () => {
   };
   return (
     <div className="mt-52 flex flex-col justify-center items-center">
+      <Helmet>
+        <title>Edit Profile | Dsuber Eats</title>
+      </Helmet>
       <FormTitle name="Edit Profile"/>
       <form 
         onSubmit={handleSubmit(onValidSubmit)}

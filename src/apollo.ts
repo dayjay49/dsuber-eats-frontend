@@ -5,8 +5,8 @@ import { LOCALSTORAGE_TOKEN } from './constants';
 const token = localStorage.getItem(LOCALSTORAGE_TOKEN);
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
-console.log("Default value of isLoggedInVar is: ", isLoggedInVar());
-console.log("Default value of authTokenVar is: ", authTokenVar());
+// console.log("Default value of isLoggedInVar is: ", isLoggedInVar());
+// console.log("Default value of authTokenVar is: ", authTokenVar());
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
