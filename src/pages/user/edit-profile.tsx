@@ -21,29 +21,30 @@ interface IEditFormProps {
 }
 
 export const EditProfile = () => {
-  const { data: userData } = useMe();
-  const client = useApolloClient();
-  const onCompleted = (data: editProfile) => {
+  const { data: userData, refetch: refreshUser } = useMe();
+  // const client = useApolloClient();
+  const onCompleted = async (data: editProfile) => {
     const { editProfile: { ok } } = data;
     if (ok && userData) {
-      // update the cache
-      const { me: { email: prevEmail, id }} = userData;
-      const { email: newEmail } = getValues(); 
-      if (prevEmail !== newEmail) {
-        client.writeFragment({
-          id: `User:${id}`,
-          fragment: gql`
-            fragment EditedUser on User {
-              verified
-              email
-            }
-          `,
-          data: {
-            verified: false,
-            email: newEmail,
-          }
-        });
-      }
+      // // update the cache
+      // const { me: { email: prevEmail, id }} = userData;
+      // const { email: newEmail } = getValues(); 
+      // if (prevEmail !== newEmail) {
+      //   client.writeFragment({
+      //     id: `User:${id}`,
+      //     fragment: gql`
+      //       fragment EditedUser on User {
+      //         verified
+      //         email
+      //       }
+      //     `,
+      //     data: {
+      //       verified: false,
+      //       email: newEmail,
+      //     }
+      //   });
+      // }
+      await refreshUser();
     } 
   };
   const [ editProfile, { loading }] = useMutation<
