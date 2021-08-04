@@ -1,9 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { Categories } from "../../components/categories";
 import { Restaurant } from "../../components/restaurant";
+import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import { restaurantsPageQuery, restaurantsPageQueryVariables } from "../../__generated__/restaurantsPageQuery";
 
 const RESTAURANTS_QUERY = gql`
@@ -12,11 +14,7 @@ const RESTAURANTS_QUERY = gql`
       ok
       error
       categories {
-        id
-        name
-        coverImg
-        slug
-        restaurantCount
+        ...CategoryParts
       }
     }
     allRestaurants(input: $input) {
@@ -25,17 +23,12 @@ const RESTAURANTS_QUERY = gql`
       totalPages
       totalResults
       results {
-        id
-        name
-        coverImg
-        category {
-          name
-        }
-        address
-        isPromoted
+        ...RestaurantParts
       }
     }
   }
+  ${RESTAURANT_FRAGMENT}
+  ${CATEGORY_FRAGMENT}
 `;
 
 interface ISearchFormProps {
@@ -70,6 +63,9 @@ export const Restaurants = () => {
   }
   return (
     <div>
+      <Helmet>
+        <title>Home | Dsuber Eats</title>
+      </Helmet>
       <form
         onSubmit={handleSubmit(onSearchSubmit)} 
         className="bg-gray-800 w-full py-40 flex items-center justify-center"
