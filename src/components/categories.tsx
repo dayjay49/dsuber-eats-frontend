@@ -9,7 +9,7 @@ export const Categories: React.FC<ICategoriesProps> = ({categoriesData}) => {
   return (
     <div className="flex justify-around max-w-lg mx-auto">
       {categoriesData?.map((category, i) => 
-        <div key={i} className="flex flex-col items-center group cursor-pointer">
+        <div key={category.id} className="flex flex-col items-center group cursor-pointer">
           <div 
             className="w-16 h-16 rounded-full bg-cover group-hover:bg-gray-100" 
             style={{backgroundImage: `url(${category.coverImg})`}}

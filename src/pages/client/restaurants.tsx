@@ -1,5 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { Categories } from "../../components/categories";
 import { Restaurant } from "../../components/restaurant";
 import { restaurantsPageQuery, restaurantsPageQueryVariables } from "../../__generated__/restaurantsPageQuery";
@@ -36,6 +38,10 @@ const RESTAURANTS_QUERY = gql`
   }
 `;
 
+interface ISearchFormProps {
+  searchTerm: string;
+}
+
 export const Restaurants = () => {
   const [ page, setPage ] = useState(1);
   const { data, loading } = useQuery<
@@ -51,12 +57,30 @@ export const Restaurants = () => {
 
   const onNextPageClick = () => setPage(current => current + 1);
   const onPrevPageClick = () => setPage(current => current - 1);
-
+  
+  const { register, handleSubmit, getValues } = useForm<ISearchFormProps>();
+  const history = useHistory();
+  const onSearchSubmit = () => {
+    const { searchTerm } = getValues();
+    history.push({
+      pathname:"/search",
+      search: `?term=${searchTerm}`,
+      // state: { searchTerm },
+    });
+  }
   return (
     <div>
-      <form className="bg-gray-800 w-full py-40 flex items-center justify-center">
+      <form
+        onSubmit={handleSubmit(onSearchSubmit)} 
+        className="bg-gray-800 w-full py-40 flex items-center justify-center"
+      >
         <input
-          className="input w-3/12 rounded-md border-0"
+          {...register('searchTerm', {
+            required: true,
+            min: 3,
+          })}
+          
+          className="input rounded-md border-0 w-2/3 md:w-3/12"
           type="Search" 
           placeholder="Search restaurants..." 
         />
@@ -64,9 +88,10 @@ export const Restaurants = () => {
       {!loading && (
         <div className="max-w-screen-lg mx-auto mt-5">
           <Categories categoriesData={data?.allCategories.categories} />
-          <div className="mt-10 grid grid-cols-3 gap-x-4 gap-y-10">
+          <div className="mt-10 grid md:grid-cols-3 gap-x-4 gap-y-10">
             {data?.allRestaurants.results?.map(restaurant => 
               <Restaurant 
+                key={restaurant.id}
                 id={restaurant.id + ""}
                 coverImg={restaurant.coverImg}
                 name={restaurant.name}
@@ -74,6 +99,7 @@ export const Restaurants = () => {
               />
             )}
           </div>
+          {/* Pagination below */}
           <div className="grid grid-cols-3 text-center max-w-sm mx-auto items-center mt-10">
             {page > 1 ? (
               <button 
