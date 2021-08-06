@@ -43,8 +43,25 @@ export interface category_category {
   category: category_category_category | null;
 }
 
+export interface category_allCategories_categories {
+  __typename: "Category";
+  id: number;
+  name: string;
+  coverImg: string | null;
+  slug: string;
+  restaurantCount: number;
+}
+
+export interface category_allCategories {
+  __typename: "AllCategoriesOutput";
+  ok: boolean;
+  error: string | null;
+  categories: category_allCategories_categories[] | null;
+}
+
 export interface category {
   category: category_category;
+  allCategories: category_allCategories;
 }
 
 export interface categoryVariables {

@@ -45,6 +45,7 @@ export const Search = () => {
       },
     });
   }, [history, location, callQueryToFetch]);
+  
   console.log(loading, data, called);
 
   return (
