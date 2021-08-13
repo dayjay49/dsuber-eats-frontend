@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation, useParams } from "react-router-dom";
 import { CategoriesGrid } from "../../components/categories-grid";
+import { Pagination } from "../../components/pagination";
 import { Restaurant } from "../../components/restaurant";
 import { RestaurantsGrid } from "../../components/restaurants-grid";
 import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
@@ -69,30 +70,12 @@ export const Category = () => {
         <div className="max-w-screen-lg mx-auto mt-5">
           <CategoriesGrid categoriesData={data?.allCategories.categories} />
           <RestaurantsGrid restaurantsData={data?.category.restaurants} />
-          {/* Pagination below */}
-          <div className="grid grid-cols-3 text-center max-w-sm mx-auto items-center mt-10">
-            {page > 1 ? (
-              <button 
-                onClick={onPrevPageClick}
-                className="focus:outline-none font-medium text-2xl">
-                &larr;
-              </button>
-            ) : (
-              <div></div>
-            )}
-            <span className="mx-5">
-              Page {page} of {data?.category.totalPages}
-            </span>
-            {page !== data?.category.totalPages ? (
-              <button 
-                onClick={onNextPageClick}
-                className="focus:outline-none font-medium text-2xl">
-                &rarr;
-              </button>
-            ) : (
-              <div></div>
-            )}
-          </div>
+          <Pagination 
+            page={page} 
+            totalPages={data?.category.totalPages}
+            onPrevPageClick={onPrevPageClick}
+            onNextPageClick={onNextPageClick}
+          />
         </div>
       )}
     </div>
