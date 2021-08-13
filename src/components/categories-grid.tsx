@@ -6,7 +6,7 @@ interface ICategoriesProps {
   categoriesData: restaurantsPageQuery_allCategories_categories[] | null | undefined;
 }
 
-export const Categories: React.FC<ICategoriesProps> = ({categoriesData}) => {
+export const CategoriesGrid: React.FC<ICategoriesProps> = ({categoriesData}) => {
   return (
     <div className="flex justify-around max-w-lg mx-auto">
       {categoriesData?.map((category, i) => 

@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { Categories } from "../../components/categories";
+import { CategoriesGrid } from "../../components/categories-grid";
 import { Restaurant } from "../../components/restaurant";
+import { RestaurantsGrid } from "../../components/restaurants-grid";
 import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import { restaurantsPageQuery, restaurantsPageQueryVariables } from "../../__generated__/restaurantsPageQuery";
 
@@ -83,18 +84,8 @@ export const Restaurants = () => {
       </form>
       {!loading && (
         <div className="max-w-screen-lg mx-auto mt-5">
-          <Categories categoriesData={data?.allCategories.categories} />
-          <div className="mt-10 grid md:grid-cols-3 gap-x-4 gap-y-10">
-            {data?.allRestaurants.results?.map(restaurant => 
-              <Restaurant 
-                key={restaurant.id}
-                id={restaurant.id + ""}
-                coverImg={restaurant.coverImg}
-                name={restaurant.name}
-                categoryName={restaurant.category?.name}
-              />
-            )}
-          </div>
+          <CategoriesGrid categoriesData={data?.allCategories.categories} />
+          <RestaurantsGrid restaurantsData={data?.allRestaurants.results} />
           {/* Pagination below */}
           <div className="grid grid-cols-3 text-center max-w-sm mx-auto items-center mt-10">
             {page > 1 ? (

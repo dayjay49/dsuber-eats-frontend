@@ -24,6 +24,7 @@ const SEARCH_RESTAURANT = gql`
 export const Search = () => {
   const location = useLocation();
   const history = useHistory();
+  // Using LazyQuery!!
   const [callQueryToFetch, { loading, data, called }] = useLazyQuery<
     searchRestaurant,
     searchRestaurantVariables

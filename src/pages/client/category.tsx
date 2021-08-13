@@ -2,8 +2,9 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation, useParams } from "react-router-dom";
-import { Categories } from "../../components/categories";
+import { CategoriesGrid } from "../../components/categories-grid";
 import { Restaurant } from "../../components/restaurant";
+import { RestaurantsGrid } from "../../components/restaurants-grid";
 import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import { category, categoryVariables } from "../../__generated__/category";
 
@@ -62,22 +63,12 @@ export const Category = () => {
   return (
     <div>
       <Helmet>
-        <title>{data?.category.category?.name} | Dsuber Eats</title>
+        {data && data.category.category && <title>{data?.category.category?.name} | Dsuber Eats</title>}
       </Helmet>
       {!loading && (
         <div className="max-w-screen-lg mx-auto mt-5">
-          <Categories categoriesData={data?.allCategories.categories} />
-          <div className="mt-10 grid md:grid-cols-3 gap-x-4 gap-y-10">
-            {data?.category.restaurants?.map(restaurant => 
-              <Restaurant 
-                key={restaurant.id}
-                id={restaurant.id + ""}
-                coverImg={restaurant.coverImg}
-                name={restaurant.name}
-                categoryName={restaurant.category?.name}
-              />
-            )}
-          </div>
+          <CategoriesGrid categoriesData={data?.allCategories.categories} />
+          <RestaurantsGrid restaurantsData={data?.category.restaurants} />
           {/* Pagination below */}
           <div className="grid grid-cols-3 text-center max-w-sm mx-auto items-center mt-10">
             {page > 1 ? (
