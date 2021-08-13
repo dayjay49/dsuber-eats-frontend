@@ -1,10 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CategoriesGrid } from "../../components/categories-grid";
 import { Pagination } from "../../components/pagination";
-import { Restaurant } from "../../components/restaurant";
 import { RestaurantsGrid } from "../../components/restaurants-grid";
 import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import { category, categoryVariables } from "../../__generated__/category";

@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { CategoriesGrid } from "../../components/categories-grid";
 import { Pagination } from "../../components/pagination";
-import { Restaurant } from "../../components/restaurant";
 import { RestaurantsGrid } from "../../components/restaurants-grid";
 import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import { restaurantsPageQuery, restaurantsPageQueryVariables } from "../../__generated__/restaurantsPageQuery";
@@ -77,7 +76,7 @@ export const Restaurants = () => {
             required: true,
             min: 3,
           })}
-          
+          name='searchTerm'
           className="input rounded-md border-0 w-2/3 md:w-3/12"
           type="Search" 
           placeholder="Search restaurants..." 

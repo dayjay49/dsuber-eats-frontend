@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
+import { RestaurantsGrid } from "../../components/restaurants-grid";
 import { RESTAURANT_FRAGMENT } from "../../fragments";
 import { searchRestaurant, searchRestaurantVariables } from "../../__generated__/searchRestaurant";
 
@@ -46,15 +47,21 @@ export const Search = () => {
       },
     });
   }, [history, location, callQueryToFetch]);
-  
-  console.log(loading, data, called);
+
+  const [_, searchTerm] = location.search.split("?term=");
+  console.log(loading, data, called, searchTerm);
 
   return (
     <div>
       <Helmet>
         <title>Search | Dsuber Eats</title>
       </Helmet>
-      <h1>Search Page</h1>
+      {!loading && called && (
+        <div className="max-w-screen-lg mx-auto mt-5">
+          <h3>Showing restaurants for `{searchTerm}`:</h3>
+          <RestaurantsGrid restaurantsData={data?.searchRestaurant.restaurants} />
+        </div>
+      )}
     </div>
   );
 }

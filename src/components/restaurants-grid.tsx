@@ -9,7 +9,7 @@ interface IRestaurantsProps {
 
 export const RestaurantsGrid: React.FC<IRestaurantsProps> = ({restaurantsData}) => {
   return (
-    <div className="mt-10 grid md:grid-cols-3 gap-x-4 gap-y-10">
+    <div className="mt-5 grid md:grid-cols-3 gap-x-4 gap-y-10">
       {restaurantsData?.map(restaurant => 
         <Restaurant 
           key={restaurant.id}
